@@ -15,7 +15,7 @@ let section = document.querySelector("#items");
 function addProducts(products){
   for (product of products) {
     let newSection = document.createElement('a');
-        newSection.setAttribute("href", "./product.html?id=${product_id}");
+        newSection.href = newSection.href + `./product.html?id=${product._id}`;
         section.appendChild(newSection);
     let Article = document.createElement("article");
         newSection.appendChild(Article);
@@ -33,3 +33,5 @@ function addProducts(products){
         Article.appendChild(text)
   }
 }
+
+/* let newSection.href = newSection.href + './product.html?id=${product._id}" ``*/
