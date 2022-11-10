@@ -1,34 +1,45 @@
 //récupérer les paramètres URL 
-function getParameter (parameterId){
-    let parameters = new URLSearchParams(window.location.search);
-    return parameters.get(parameterId);
-}
-
-fetch("http://localhost:3000/api/products?id=${id}")
-    .then(function(res) {
-        if (res.ok) {
-        return res.json();
-        }
-    })
-    .then(function(value) {
-        showProducts(value)
-        console.log("Sucess:", value);
-    });
+let str = window.location.search
+let urlParam = new URLSearchParams(str)
+let product_id = urlParam.get('id')
+    console.log(product_id)
 
 
+fetch(`http://localhost:3000/api/products?id=${product_id}`)
+.then(function(res) {
+    if (res.ok) {
+    return res.json();
+    }
+})
+.then(function(value) {
+    showProducts(value)
+    console.log("Sucess:", value);
+})
 
-function showProducts(products){
+
+//Afficher les données  
+
+/*function showProducts(products){
     for (product of products) {
         let presentationImg = document.querySelector(".item__img")
-        const structureImg = `<img src="../images/logo.png" alt="Photographie d'un canapé">`
-        presentationImg.innerHTML = structureImg
+        let image = document.createElement("img");
+        image.src = `${product.imageUrl}`
+        image.alt = `${product.altTxt}`;
+        presentationImg.appendChild(image);
         let presentationTitle = document.querySelector("#title")
         presentationTitle.textContent= product.name
         let presentationPrice = document.querySelector("#price")
-        presentationPrice.textContent= product.price
+        presentationPrice.textContent= `${product.price}`
         let presentationDescription = document.querySelector("#description")
         presentationDescription.textContent= product.description
-
-
+console.log(product.imageUrl)
+console.log(product.name)
     }
-}
+}*/
+
+/*function showProducts(product) {
+    let presentationImg = document.querySelector(".item__img");
+    let image = document.createElement("img");
+    presentationImg.appendChild(image);
+    //image.src = product.imageUrl;
+}*/

@@ -33,5 +33,3 @@ function addProducts(products){
         Article.appendChild(text)
   }
 }
-
-/* let newSection.href = newSection.href + './product.html?id=${product._id}" ``*/
