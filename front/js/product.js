@@ -13,7 +13,9 @@ fetch(`http://localhost:3000/api/products/${product_id}`)
 .then(function(value) {
     showProducts(value)
 })
-
+.catch(function(error) {
+    console.log("Err")
+})
 
 //Afficher les données
 function showProducts(product) {
@@ -23,11 +25,11 @@ function showProducts(product) {
         image.alt = product.altTxt
         presentationImg.appendChild(image);
     let presentationTitle = document.querySelector("#title")
-        presentationTitle.textContent= product.name
+        presentationTitle.textContent = product.name
     let presentationPrice = document.querySelector("#price")
-        presentationPrice.textContent= product.price
+        presentationPrice.textContent = product.price
     let presentationDescription = document.querySelector("#description")
-        presentationDescription.textContent= product.description
+        presentationDescription.textContent = product.description
 //Add colors// 
     let optionDiv = document.querySelector("#colors")
     let colorData = product.colors
@@ -37,9 +39,8 @@ function showProducts(product) {
         option.textContent = color
 
         optionDiv.appendChild(option)
-    }          
+    }       
 }
-
 
 //local storage
 let cart = document.querySelector("#addToCart")
@@ -48,121 +49,41 @@ cart.addEventListener('click', products)
 function products(){
     let color = document.querySelector("#colors").value
     let qtty = document.querySelector("#quantity").value 
-    let product = [product_id, color, qtty]
+    let name = document.querySelector("#title").textContent
     let productKey = product_id + color
-
+    let liste = []
+    let product = [{
+        id: product_id,
+        colors: color,
+        quantité: qtty,
+        }]
+    
+    
     if(localStorage.getItem(productKey)){
         let quantiteInitiale = localStorage.getItem(productKey)
-        let quantiteAdded = parseInt(quantiteInitiale) + parseInt(qtty)
-        localStorage.setItem(product_id + color, quantiteAdded)
-    } else {
-        localStorage.setItem(product_id + color, qtty)
+        let quantiteAjoutee = parseInt(quantiteInitiale) + parseInt(qtty)
+        product = [{
+            id: product_id,
+            colors: color,
+            quantité: quantiteAjoutee,
+        }]
+        liste.push(product)
+        jsonProduct = JSON.stringify(liste)
+        localStorage.setItem(productKey, quantiteAjoutee)
+        alert(`Articles: ${name} ${color} ${quantiteAjoutee} ajoutés au panier`)
+        return true
+    } else if (color === ""){
+        alert("veuillez sélectionner une couleur")
+        return false
+    } else if (qtty < 1) {
+        alert("veuillez sélectionner un nombre d'article")
+        return false
+    } 
+    else {
+        liste.push(product)
+        jsonProduct = JSON.stringify(liste)
+        localStorage.setItem(productKey, qtty)
+        alert(`Article: ${name} ${color} ${qtty} ajouté au panier`)
+        return true
     }
 }
-
-//if product already here: XX -> else if id but no color: XXX -> else if id + color but no qty: XXXX  -> else: localstorage id + color + qtty
-
-
-
-
-
-/*    
-setItems(product)
-    //let productNumbers = localStorage.getItem(product)
-    //productNumbers = parseInt(productNumbers)
-
-function setItems(product){
-    let quantiteInitiale = JSON.parse(localStorage.getItem(productKey))
-    console.log("base", quantiteInitiale)
-    console.log(typeof quantiteInitiale)
-}
-
-if(localStorage.getItem(productKey)){
-    let quantiteAjoute = quantiteInitiale[0].value
-    console.log("quantité ajouté", quantiteAjoute)
-
-}
-*/
-
-/*
-    let currentqtty = localStorage.setItem(product_id + color, qtty)
-    console.log("currentqtty", currentqtty)
-    let newcurrentqtty = parseInt(currentqtty + baseqtty)
-    console.log("final qtty", newcurrentqtty)
-    console.log(typeof newcurrentqtty)
-    if (productNumbers) {
-        localStorage.setItem(product_id + color, newcurrentqtty) //+ l'anciennce value)
-    }else {
-        localStorage.setItem(product_id + color, qtty)
-    }
-
-*/
-/*
-    //let parsedProduct = parseInt(product)
-    //console.log(typeof parsedProduct)
-
-checkItem(product)
-
-let baseqtty = localStorage.getItem(qtty)
-    console.log("base", product[2])
-
-
-/*
-function checkItem(product) {
-    let item = localStorage.getItem(parsedProduct)
-    console.log("item", item)
-}
-*/
-/*
-    //let productNumbers = localStorage.getItem(product)
-    //newProductNumbers = parseInt(productNumbers)
-    //console.log(newProductNumbers)
-    //console.log(typeof newProductNumbers)
-
-    let baseqtty = localStorage.getItem(qtty)
-    console.log("base", product[2])
-    let currentqtty = localStorage.setItem(product_id + color, qtty)
-    console.log("currentqtty", currentqtty)
-    let newcurrentqtty = parseInt(currentqtty + baseqtty)
-    console.log("final qtty", newcurrentqtty)
-    console.log(typeof newcurrentqtty)
-    if (productNumbers) {
-        localStorage.setItem(product_id + color, newcurrentqtty) //+ l'anciennce value)
-    }else {
-        localStorage.setItem(product_id + color, qtty)
-    }
-*/
-
-
-    //let returnedProduct = JSON.parse(localStorage.getItem(tessst))
-    //console.log("pls work?", returnedProduct)
-
-
-
-/*    
-function returnProduct() {
-    let productNumbers = localStorage.getItem('returnProduct')
-    localStorage.setItem(productArray[0] + productArray[1], productArray[2])
-    let basket = JSON.parse(localStorage.getItem(seToLocal))
-    return (basket)
-}
-
-    //localStorage.setItem(productArray[0] + productArray[1], productArray[2])
-
-
-    localStorage.setItem(productArray[0] + productArray[1], productArray[2])
-    productArray = parseInt(productArray)
-    console.log(typeof productArray)
-    if (productArray){
-        localStorage.setItem(productArray[0] + productArray[1], productArray[2] +1)
-    }else {
-        localStorage.setItem(productArray[0] + productArray[1], productArray[2])
-    }   
-
-    
-    function cartNumbers() {
-        let basket = JSON.parse(localStorage.getItem(addToCart))
-        return (basket)
-        console.log(basket)
-    }  
-*/
