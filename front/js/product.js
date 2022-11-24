@@ -52,21 +52,20 @@ function products(){
     let name = document.querySelector("#title").textContent
     let productKey = product_id + color
     let liste = []
-    let product = [{
+    let product = {
         id: product_id,
         colors: color,
         quantité: qtty,
-        }]
+        }
     
-    
-    if(localStorage.getItem(productKey)){
+    if (localStorage.getItem(productKey)){
         let quantiteInitiale = localStorage.getItem(productKey)
         let quantiteAjoutee = parseInt(quantiteInitiale) + parseInt(qtty)
-        product = [{
+        product = {
             id: product_id,
             colors: color,
             quantité: quantiteAjoutee,
-        }]
+        }
         liste.push(product)
         jsonProduct = JSON.stringify(liste)
         localStorage.setItem(productKey, quantiteAjoutee)
@@ -78,8 +77,7 @@ function products(){
     } else if (qtty < 1) {
         alert("veuillez sélectionner un nombre d'article")
         return false
-    } 
-    else {
+    } else {
         liste.push(product)
         jsonProduct = JSON.stringify(liste)
         localStorage.setItem(productKey, qtty)
@@ -87,3 +85,6 @@ function products(){
         return true
     }
 }
+
+//productKey, qtty
+//productKey, quantiteAjoutee
