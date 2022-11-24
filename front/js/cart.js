@@ -1,5 +1,5 @@
-//let cartList = localStorage.getItem(producKey)
-
+//let liste = localStorage.getItem(producKey)
+//productKey = JSON.parse(liste);
 
 
 let cartItems = document.getElementById("#cart_items")
@@ -45,7 +45,7 @@ function showCartItems() {
                         qttyInput.className = 'itemQuantity';
                         qttyInput.setAttribute('type', 'number');
                         qttyInput.setAttribute('name', 'itemQuantity');
-                        qttyInput.setAttribute('min', '0');
+                        qttyInput.setAttribute('min', '1');
                         qttyInput.setAttribute('max', '100');
                         qttyInput.value = //produit.quantity;
                         divCartItemQtty.appendChild(qttyInput);
@@ -58,3 +58,10 @@ function showCartItems() {
                         divDelete.appendChild(deleteItem)
     //}
 }
+
+/*
+function deleteArticle () {
+    deleteItem.addEventListener('click', product){
+        XXX.remove
+    }
+}*/
