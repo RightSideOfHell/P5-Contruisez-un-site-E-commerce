@@ -14,7 +14,7 @@ fetch(`http://localhost:3000/api/products/${product_id}`)
     showProducts(value)
 })
 .catch(function(error) {
-    console.log("Err")
+    console.error("Err")
 })
 
 //Afficher les données
@@ -50,13 +50,12 @@ function products(){
     let color = document.querySelector("#colors").value
     let qtty = document.querySelector("#quantity").value 
     let name = document.querySelector("#title").textContent
-    let productKey = product_id + color
-    let liste = []
+    let productKey = product_id + ";" + color
     let product = {
         id: product_id,
         colors: color,
         quantité: qtty,
-        }
+    }
     
     if (localStorage.getItem(productKey)){
         let quantiteInitiale = localStorage.getItem(productKey)
@@ -66,8 +65,6 @@ function products(){
             colors: color,
             quantité: quantiteAjoutee,
         }
-        liste.push(product)
-        jsonProduct = JSON.stringify(liste)
         localStorage.setItem(productKey, quantiteAjoutee)
         alert(`Articles: ${name} ${color} ${quantiteAjoutee} ajoutés au panier`)
         return true
@@ -78,13 +75,8 @@ function products(){
         alert("veuillez sélectionner un nombre d'article")
         return false
     } else {
-        liste.push(product)
-        jsonProduct = JSON.stringify(liste)
         localStorage.setItem(productKey, qtty)
         alert(`Article: ${name} ${color} ${qtty} ajouté au panier`)
         return true
     }
 }
-
-//productKey, qtty
-//productKey, quantiteAjoutee

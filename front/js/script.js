@@ -6,6 +6,9 @@ fetch("http://localhost:3000/api/products")
   })
   .then(function(value) {
     addProducts(value)
+  })
+  .catch(function(error) {
+    console.error("Err")
   });
 
 
