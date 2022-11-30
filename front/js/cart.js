@@ -1,35 +1,40 @@
+const urls = []
 for (let i = 0; i < localStorage.length; i++){
-    let idItem = (localStorage.key(i))
+    let idItem = (localStorage.key(i));
     let idsplit = idItem.split(';')[0];
-    let colorSplit = idItem.split(';')[1]
+    let colorSplit = idItem.split(';')[1];
     product = {
         id: idsplit,
         color: colorSplit,
         quantity: (localStorage.getItem(idItem))
+    };
+    urls.push("http://localhost:3000/api/products/"+product.id)
+};
+console.log(urls)
+
+
+const fetchData = async () => {
+    try {
+      const response = await Promise.all(
+        urls.map(url => fetch(url)
+        .then(res => res.json()))
+        )
+        console.log("response", response)
+        .then(function(value) {
+          showCartItems(value)
+        })
+    } catch (error) {
+      console.error("Error", error);
     }
-    fetch("http://localhost:3000/api/products/"+product.id)
-    .then(function(res) {
-        if (res.ok) {
-            return res.json();
-        }
-    })
-    .then(function(value) {
-        showCartItems(value)
-    })
-    .catch(function(error) {
-        console.error("Err")
-    })
-    console.log(product.id)
-    
-    console.log(product)
-}
+  }
+  fetchData()
 
 
 
 
 let cartItems = document.getElementById("cart__items")
 async function showCartItems(products) {
-    //for (product of products) {
+    for (product of products) {
         let article = document.createElement("article")
         article.className = "cart__item";
         article.setAttribute("data-id", product.id);   
@@ -81,7 +86,7 @@ async function showCartItems(products) {
                         deleteItem.className = "deleteItem"
                         deleteItem.textContent = "Supprimer"
                         divDelete.appendChild(deleteItem)
-   //}
+   }
         
 }
 
