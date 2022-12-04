@@ -42,7 +42,7 @@ function showProducts(product) {
     }       
 }
 
-//local storage
+// Ajout au local storage//
 let cart = document.querySelector("#addToCart")
 cart.addEventListener('click', products)
 
