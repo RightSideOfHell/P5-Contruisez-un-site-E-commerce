@@ -20,7 +20,7 @@ for (let i = 0; i < localStorage.length; i++){
         showCartItems(value, product)
         totalPrice()
         totalQuantity()
-        //updateQuantity(product)
+        updateQuantity(product)
         deleteItem()
         checkLocalStorage()
     
@@ -107,12 +107,12 @@ function totalQuantity(){
     document.getElementById("totalQuantity").textContent = totalQuantity
 }
 
-/*
+
 // UPDATE QUANTITY //
 function updateQuantity(product){
     let oldQuantity = product.quantity
     let quantityInput = document.querySelectorAll(".itemQuantity");
-    console.log(quantityInput)
+
     quantityInput.forEach((article) => {
         article.addEventListener('change', (e) => {
             let productId = e.target.closest(".cart__item").dataset.id;
@@ -120,21 +120,18 @@ function updateQuantity(product){
             let productKey = productId + ";" + productColor
 
             if (quantityInput != oldQuantity) {
-                let newquantity = parseInt(productKey.valueAsNumber)
-                console.log(typeof newquantity)
-                console.log(newquantity)
+                let newquantity = parseInt(e.target.value)
                 localStorage.setItem(productKey, newquantity)
-            } else if (quantityInput < 1) {
-                deleteItem()
             }
         })
     });
 }
-*/
+
 
 // DELETE ITEM //
 function deleteItem() {
     let deleteBtn = document.querySelectorAll(".deleteItem")
+    
     deleteBtn.forEach((btn) => {
         btn.addEventListener('click', (e) => {
             let productId = e.target.closest(".cart__item").dataset.id;
