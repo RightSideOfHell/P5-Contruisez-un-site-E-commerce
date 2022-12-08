@@ -1,3 +1,4 @@
+// CONTACT DE L'API //
 fetch("http://localhost:3000/api/products")
   .then(function(res) {
     if (res.ok) {
@@ -12,8 +13,8 @@ fetch("http://localhost:3000/api/products")
   });
 
 
+// INSERTION DU HTML DANS LE DOM //
 let section = document.querySelector("#items");
-
 function addProducts(products){
   for (product of products) {
     let newSection = document.createElement('a');

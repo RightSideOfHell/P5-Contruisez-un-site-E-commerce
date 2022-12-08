@@ -17,12 +17,12 @@ for (let i = 0; i < localStorage.length; i++){
         }
     })
     .then(function(value) {
+        checkLocalStorage()
         showCartItems(value, product)
         totalPrice()
         totalQuantity()
         updateQuantity(product)
         deleteItem()
-        checkLocalStorage()
     
     })
     .catch(function(error) {
@@ -86,6 +86,9 @@ async function showCartItems(value, product) {
     divDelete.appendChild(deleteItem)
 }
 
+
+/************************************************** OPTIONS DU PANIER **************************************************/
+
 // TOTAL PRICE //     
 function totalPrice() {
     let quantities = document.querySelectorAll(".itemQuantity");
@@ -123,6 +126,9 @@ function updateQuantity(product){
                 let newquantity = parseInt(e.target.value)
                 localStorage.setItem(productKey, newquantity)
             }
+
+            totalPrice()
+            totalQuantity()
         })
     });
 }
@@ -131,7 +137,7 @@ function updateQuantity(product){
 // DELETE ITEM //
 function deleteItem() {
     let deleteBtn = document.querySelectorAll(".deleteItem")
-    
+
     deleteBtn.forEach((btn) => {
         btn.addEventListener('click', (e) => {
             let productId = e.target.closest(".cart__item").dataset.id;
@@ -149,7 +155,7 @@ function deleteItem() {
     })
 }
 
-// CHECK SI LOCAL STORAGE EST VIDE //
+// LOCAL STORAGE EST VIDE APRES SUPPRESSIONS //
 function checkLocalStorage() {
     let checkLS = localStorage.length
     let title = document.querySelector("h1")
@@ -157,4 +163,131 @@ function checkLocalStorage() {
         title.textContent = "Votre panier est vide";
         return true
     }
-}checkLocalStorage()
+}
+
+/************************************************** FORMULAIRE **************************************************/
+
+// CHECK FORM: PRENOM + MSG D'ERREUR//
+let form = document.querySelector(".cart__order__form")
+form.firstName.addEventListener('change', function(){
+    validFirstName(this)
+})
+const validFirstName = function(inputFirstName) {
+    let firstNameREGEX = new RegExp ("^[a-zA-Z]{1}([^0-9°²!¡?;@#(){}|~<>&+=¤£§$*%_]+)$");
+    let errorMsg = document.querySelector("#firstNameErrorMsg")
+    if(firstNameREGEX.test(inputFirstName.value)){
+        errorMsg.innerHTML = 'Prénom valide'
+        return true
+    } else {
+        errorMsg.innerHTML = 'Prénom non valide: Au moins 2 lettres et ne doit contenir ni caractères spéciaux, ni chiffres'
+        return false
+    }
+}
+
+// CHECK FORM: NOM + MSG D'ERREUR//
+form.lastName.addEventListener('change', function(){
+    validLastName(this)
+})
+const validLastName = function(inputlastName) {
+    let lastNameREGEX = new RegExp ("^[a-zA-Z]{1,2}([^0-9°²!¡?;@#(){}|~<>&+=¤£§$*%_]+)$");
+    let lastNameErrorMsg = document.querySelector('#lastNameErrorMsg')
+    if(lastNameREGEX.test(inputlastName.value)){
+        lastNameErrorMsg.innerHTML = "Nom valide"
+        return true
+    } else {
+        lastNameErrorMsg.innerHTML = "Nom non valide: Au moins 2 lettres et ne doit contenir ni caractères spéciaux, ni chiffres"
+        return false
+    }
+}
+
+// CHECK FORM: VILLE + MSG D'ERREUR//
+form.city.addEventListener('change', function(){
+    validCity(this)
+})
+const validCity = function(inputcity) {
+    let cityREGEX = new RegExp ("^[a-zA-Z]{1,2}([^0-9°²!¡?;@#(){}|~<>&+=¤£§$*%_]+)$");
+    let cityErrorMsg = document.querySelector("#cityErrorMsg")
+    if(cityREGEX.test(inputcity.value)){
+        cityErrorMsg.innerHTML = "Nom de ville valide"
+        return true
+    } else {
+        cityErrorMsg.innerHTML = "Ville non valide: Au moins 2 lettres et ne doit contenir ni caractères spéciaux, ni chiffres"
+        return false
+    }
+}
+
+// CHECK FORM: ADRESSE + MSG D'ERREUR//
+form.address.addEventListener('change', function(){
+    validAddress(this)
+})
+const validAddress = function(inputaddress) {
+    let addressREGEX = new RegExp ("[^°²!¡?;@#(){}|~<>&+=¤£§$*%][A-Za-z0-9]{6}$");
+    let addressErrorMsg = document.querySelector("#addressErrorMsg")
+    if(addressREGEX.test(inputaddress.value)){
+        addressErrorMsg.innerHTML = "Adresse valide"
+        return true
+    } else {
+        addressErrorMsg.innerHTML = "example: 10 quai de la charente"
+        return false
+    }
+}
+
+// CHECK FORM: EMAIL + MSG D'ERREUR//
+form.email.addEventListener('change', function(){
+    validEmail(this)
+})
+const validEmail = function(inputemail) {
+    let emailREGEX = new RegExp ("^([a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-zA-Z]{2,10})$");
+    let emailErrorMsg = document.querySelector("#emailErrorMsg")
+    if(emailREGEX.test(inputemail.value)){
+        emailErrorMsg.innerHTML = "Email valide"
+        return true
+    } else {
+        emailErrorMsg.innerHTML = "example: kanap123@nom.blabla"
+        return false
+    }
+}
+
+
+/********************************************* SOUMISSION DU FORMULAIRE *********************************************/
+
+
+
+
+
+
+// ECOUTER LA SOUMISSION DU FORMULAIRE //
+form.addEventListener('submit', function(e){
+    e.preventDefault()
+    if(validFirstName(form.firstName) && validLastName(form.lastName) && validCity(form.city) && validAddress(form.address) && validEmail(form.email)){
+        let commande = localStorage
+        let order ={
+            contact: {
+                prenom: document.getElementById("firstName").value,
+                nom: document.getElementById("lastName").value,
+                adresse: document.getElementById("address").value,
+                ville: document.getElementById("city").value,
+                adresseMail: document.getElementById("email").value,
+            },
+            orders: commande,
+        }
+        console.log(order)
+        //form.submit()
+    }
+})
+
+/*
+fetch("http://localhost:3000/api/products/order", {
+    method: "POST",
+    headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(order)
+})
+    .then(response => response.json())
+    .then(response => console.log(JSON.stringify(response)))
+    .catch(function(error) {
+        console.error("Err")
+    })
+
+    */
