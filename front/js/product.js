@@ -1,4 +1,4 @@
-//récupérer les paramètres URL 
+// RECUPERER LES PARAMETRES URL //
 let str = window.location.search
 let urlParam = new URLSearchParams(str)
 let product_id = urlParam.get('id')
@@ -17,7 +17,7 @@ fetch(`http://localhost:3000/api/products/${product_id}`)
     console.error("Err")
 })
 
-//Afficher les données
+// AFFICHER LES DONNEES //
 function showProducts(product) {
     let presentationImg = document.querySelector(".item__img")
         let image = document.createElement("img");
@@ -30,7 +30,7 @@ function showProducts(product) {
         presentationPrice.textContent = product.price
     let presentationDescription = document.querySelector("#description")
         presentationDescription.textContent = product.description
-//Add colors// 
+// Add colors // 
     let optionDiv = document.querySelector("#colors")
     let colorData = product.colors
     for(color of colorData) {
@@ -42,7 +42,7 @@ function showProducts(product) {
     }       
 }
 
-// Ajout au local storage//
+// AJOUT AU LOCAL STORAGE //
 let cart = document.querySelector("#addToCart")
 cart.addEventListener('click', products)
 
