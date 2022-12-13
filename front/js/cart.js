@@ -19,7 +19,6 @@ for (let i = 0; i < localStorage.length; i++){
         }
     })
     .then(function(value) {
-        checkLocalStorage()
         showCartItems(value, product)
         totalPrice()
         totalQuantity()
@@ -34,7 +33,7 @@ for (let i = 0; i < localStorage.length; i++){
 
 // INSERER LE HTML POUR CHAQUE ELEMENT DU PANIER //
 let cartItems = document.getElementById("cart__items")
-async function showCartItems(value, product) {
+function showCartItems(value, product) {
     let article = document.createElement("article")
     article.className = "cart__item";
     article.setAttribute("data-id", product.id); 
@@ -89,7 +88,7 @@ async function showCartItems(value, product) {
 }
 
 
-/************************************************** OPTIONS DU PANIER **************************************************/
+/************************************ OPTIONS DU PANIER ************************************/
 // TOTAL PRICE //     
 function totalPrice() {
     let quantities = document.querySelectorAll(".itemQuantity");
@@ -135,7 +134,6 @@ function updateQuantity(product){
 // DELETE ITEM //
 function deleteItem() {
     let deleteBtn = document.querySelectorAll(".deleteItem")
-
     deleteBtn.forEach((btn) => {
         btn.addEventListener('click', (e) => {
             let productId = e.target.closest(".cart__item").dataset.id;
@@ -153,7 +151,7 @@ function deleteItem() {
     })
 }
 
-// LOCAL STORAGE EST VIDE APRES SUPPRESSIONS //
+// LOCAL STORAGE EST VIDE //
 function checkLocalStorage() {
     let checkLS = localStorage.length
     let title = document.querySelector("h1")
@@ -161,7 +159,8 @@ function checkLocalStorage() {
         title.textContent = "Votre panier est vide";
         return true
     }
-}
+}checkLocalStorage()
+
 
 /************************************************** FORMULAIRE **************************************************/
 // CHECK FORM: PRENOM + MSG D'ERREUR//
@@ -202,7 +201,7 @@ form.city.addEventListener('change', function(){
     validCity(this)
 })
 const validCity = function(inputcity) {
-    let cityREGEX = new RegExp ("^[a-zA-Z]{1,2}([^0-9°²!¡?;@#(){}|~<>&+=¤£§$*%_]+)$");
+    let cityREGEX = new RegExp ("^[a-zA-Z]{1,2}([^°²!¡?;@#(){}|~<>&+=¤£§$*%_]+)$");
     let cityErrorMsg = document.querySelector("#cityErrorMsg")
     if(cityREGEX.test(inputcity.value)){
         cityErrorMsg.innerHTML = "Nom de ville valide"
@@ -250,7 +249,8 @@ const validEmail = function(inputemail) {
 form.addEventListener('submit', function(e){
     e.preventDefault()
     if(localStorage.length == 0){
-        alert("votre panier est vide")
+        alert("Votre panier est vide")
+        return false
     }
     else if(validFirstName(form.firstName) && validLastName(form.lastName) && validCity(form.city) && validAddress(form.address) && validEmail(form.email)){
         const order = {
@@ -276,7 +276,7 @@ form.addEventListener('submit', function(e){
         .then(response => {
         return response.json()
         })
-        .then(data => 
+        .then(data =>
             window.location.href = `confirmation.html?id=${data.orderId}`)
             localStorage.clear()
         .catch(function(error) {

@@ -51,20 +51,10 @@ function products(){
     let qtty = document.querySelector("#quantity").value 
     let name = document.querySelector("#title").textContent
     let productKey = product_id + ";" + color
-    let product = {
-        id: product_id,
-        colors: color,
-        quantité: qtty,
-    }
     
     if (localStorage.getItem(productKey)){
         let quantiteInitiale = localStorage.getItem(productKey)
         let quantiteAjoutee = parseInt(quantiteInitiale) + parseInt(qtty)
-        product = {
-            id: product_id,
-            colors: color,
-            quantité: quantiteAjoutee,
-        }
         localStorage.setItem(productKey, quantiteAjoutee)
         alert(`Articles: ${name} ${color} ${quantiteAjoutee} ajoutés au panier`)
         return true

@@ -12,7 +12,6 @@ fetch("http://localhost:3000/api/products")
     console.error("Err")
   });
 
-
 // INSERTION DU HTML DANS LE DOM //
 let section = document.querySelector("#items");
 function addProducts(products){
